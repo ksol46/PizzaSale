@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" %>
+<%@ page import="Dto.dto" %>
+<%
+request.setCharacterEncoding("utf-8");
+ArrayList<dto> glist = new ArrayList<dto>();
+glist = (ArrayList<dto>) request.getAttribute("glist");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,11 +25,13 @@
 						<th>피자 명</th>
 						<th>총매출액</th>
 					</tr>
+					<% for(dto d : glist){ %>
 					<tr>
-						<td>데이터</td>
-						<td>데이터</td>
-						<td>데이터</td>
+						<td><%=d.getPizzacode() %></td>
+						<td><%=d.getPizzaname() %></td>
+						<td><%=d.getTotal() %></td>
 					</tr>
+					<%} %>
 				</table>
 			</div>
 </section>

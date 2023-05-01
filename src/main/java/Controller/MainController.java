@@ -70,7 +70,7 @@ public class MainController extends HttpServlet {
 			site = dao.branch(request, response);
 			break;
 		case "/goods":
-			site = "goods.jsp";
+			site = dao.goods(request, response);
 			
 	}
 		

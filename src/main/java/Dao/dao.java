@@ -145,5 +145,47 @@ public class dao {
 		
 		return "branch.jsp";
 	}
-	
+
+	public String goods (HttpServletRequest request , HttpServletResponse response) {
+		ArrayList<dto> glist = new ArrayList<dto>();
+		
+		try {
+			
+			conn = getConnection();
+			String sql = "select"
+					+ "	p.pizzacode,"
+					+ "	p.pizzaname,"
+					+ " '￦'||to_char(sum(p.cost*(s.quantity)),'999,999,999') as total"
+					+ " from table_branch_02 b"
+					+ " join table_saleif_03 s"
+					+ " on b.bcode = s.bcode"
+					+ " join table_pizza_01 p"
+					+ " on s.pizzacode = p.pizzacode"
+					+ " group by p.pizzacode, p.pizzaname"
+					+ " order by total desc";
+			
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				dto dto = new dto();
+				dto.setPizzacode(rs.getString(1));
+				dto.setPizzaname(rs.getString(2));
+				dto.setTotal(rs.getString(3));
+				
+				glist.add(dto);
+			}
+			
+			request.setAttribute("glist",glist);
+			
+			conn.close();
+			ps.close();
+			rs.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "goods.jsp";
+	}
 }
